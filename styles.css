@@ -988,16 +988,39 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* ===== PRINT STYLES ===== */
+/* ===== PRINT STYLES — B&W OPTIMIZED ===== */
 @media print {
-  body {
-    background: white !important;
-    color: #1a1a1a !important;
-    font-size: 11pt;
+  /* --- Page layout & Margins --- */
+  @page {
+    size: A4 portrait;
+    margin: 1.6cm 1.2cm;
+  }
+
+  /* --- Global Reset for Print --- */
+  * {
+    color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
   
-  body::before { display: none; }
+  body {
+    background: white !important;
+    color: #000 !important;
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
   
+  body::before { display: none !important; }
+  
+  .app-container {
+    display: block !important;
+    width: 100% !important;
+    background: white !important;
+  }
+
+  /* --- Hide non-printable UI elements --- */
   .sidebar,
   .sidebar-toggle,
   .back-to-top,
@@ -1005,127 +1028,404 @@ h1, h2, h3, h4, h5, h6 {
   .hero-badge,
   .completion-check,
   .toggle-icon,
-  .search-container {
+  .search-container,
+  .controls-bar,
+  .btn-control,
+  .sidebar-overlay {
     display: none !important;
   }
   
   .main-content {
     margin-left: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
   }
   
+  /* --- Hero Section --- */
   .hero {
-    padding: 20pt 0;
-    border-bottom: 2pt solid #e94560;
+    padding: 15pt 0;
+    border-bottom: 2pt solid #000 !important;
+    text-align: left !important;
   }
+  
+  .hero::before { display: none !important; }
   
   .hero h1 {
-    font-size: 24pt;
+    font-size: 22pt;
     background: none !important;
-    -webkit-text-fill-color: #1a1a1a !important;
-    color: #1a1a1a !important;
+    -webkit-text-fill-color: #000 !important;
+    color: #000 !important;
+    font-weight: 800;
+    margin-bottom: 8pt;
   }
   
   .hero p {
-    color: #555 !important;
+    color: #222 !important;
+    font-size: 11pt;
   }
   
+  .hero-stats {
+    display: flex;
+    justify-content: flex-start;
+    gap: 30pt;
+    margin-top: 10pt;
+  }
+
   .stat-number {
     background: none !important;
-    -webkit-text-fill-color: #e94560 !important;
-    color: #e94560 !important;
+    -webkit-text-fill-color: #000 !important;
+    color: #000 !important;
+    font-weight: 800;
+    font-size: 16pt;
   }
   
+  .stat-label {
+    color: #444 !important;
+    font-size: 8pt;
+  }
+  
+  /* --- Content Container --- */
   .content-container {
     max-width: 100%;
     padding: 10pt 0;
   }
   
-  .qa-card {
-    border: 1px solid #ddd !important;
-    background: white !important;
-    page-break-inside: avoid;
-    break-inside: avoid;
-    margin-bottom: 12pt;
-  }
-  
-  .qa-card::before { display: none; }
-  
-  .answer-body {
-    display: block !important;
-    padding: 8pt 16pt 16pt !important;
-  }
-  
-  .question-header {
-    background: #f5f5f5 !important;
-    padding: 10pt 16pt !important;
-  }
-  
-  .question-header h3 {
-    color: #1a1a1a !important;
-  }
-  
-  .q-number {
-    background: #e94560 !important;
-    color: white !important;
-  }
-  
-  .answer-body p, .answer-body li {
-    color: #333 !important;
-    font-size: 10pt;
-  }
-  
-  .answer-body strong {
-    color: #0f7b5f !important;
-  }
-  
-  .hinglish {
-    background: #f9f5ff !important;
-    border-left-color: #8b5cf6 !important;
-    color: #555 !important;
-  }
-  
-  .key-points {
-    background: #f0fdf4 !important;
-    border-color: #bbf7d0 !important;
-  }
-  
-  .code-example pre {
-    background: #f6f8fa !important;
-    border: 1px solid #ddd !important;
-    padding: 10pt !important;
-  }
-  
-  .code-example code {
-    color: #1a1a1a !important;
-    font-size: 8.5pt;
-  }
-  
-  .diagram-container {
-    background: white !important;
-    border: 1px solid #ddd !important;
-  }
-  
-  .comparison-table th {
-    background: #fee2e2 !important;
-    color: #dc2626 !important;
-  }
-  
-  .comparison-table td {
-    color: #333 !important;
-    border-color: #ddd !important;
-  }
-  
+  /* --- Section Headers --- */
   .section-header {
     page-break-after: avoid;
-    border-color: #ddd !important;
+    break-after: avoid;
+    border-color: #000 !important;
+    border-bottom: 2pt solid #000 !important;
+    margin-top: 25pt !important;
+    padding-bottom: 5pt !important;
   }
   
   .section-header::before {
-    background: #e94560 !important;
+    display: none !important;
   }
   
   .section-header h2 {
-    color: #1a1a1a !important;
+    color: #000 !important;
+    font-weight: 800;
+    font-size: 14pt;
+  }
+  
+  .section-header .section-desc {
+    color: #444 !important;
+    font-size: 9pt;
+  }
+  
+  /* --- Q&A Cards --- */
+  .qa-card {
+    border: 1pt solid #000 !important;
+    background: white !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 15pt;
+    border-radius: 4pt !important;
+  }
+  
+  .qa-card::before { display: none !important; }
+  
+  .answer-body {
+    display: block !important;
+    padding: 10pt 14pt 14pt !important;
+  }
+  
+  /* --- Question Header --- */
+  .question-header {
+    background: #f5f5f5 !important;
+    padding: 8pt 12pt !important;
+    border-bottom: 1pt solid #000 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .question-header h3 {
+    color: #000 !important;
+    font-weight: 700;
+    font-size: 11pt;
+  }
+  
+  /* Q-number: Black badge with white text for max B&W contrast */
+  .q-number {
+    background: #000 !important;
+    color: #fff !important;
+    font-weight: 700;
+    padding: 2pt 6pt !important;
+    border-radius: 2pt !important;
+    font-size: 8pt !important;
+    margin-right: 8pt !important;
+  }
+  
+  /* --- Answer Body Text --- */
+  .answer-body p,
+  .answer-body li {
+    color: #000 !important;
+    font-size: 9.5pt;
+    line-height: 1.5;
+  }
+  
+  .answer-body strong {
+    color: #000 !important;
+    font-weight: 700;
+  }
+  
+  .answer-body em {
+    color: #000 !important;
+    background: none !important;
+    font-style: italic;
+    font-weight: 600;
+    padding: 0 !important;
+  }
+  
+  .answer-body h4 {
+    color: #000 !important;
+    font-weight: 700;
+    border-bottom: 0.75pt solid #333;
+    padding-bottom: 2pt;
+    margin-top: 12pt;
+    font-size: 10pt;
+  }
+  
+  .answer-body a {
+    color: #000 !important;
+    text-decoration: underline !important;
+  }
+
+  .answer-body a[href^="#"]::after {
+    content: "" !important; /* Hide hash links */
+  }
+  
+  .answer-body li::marker {
+    color: #000 !important;
+  }
+  
+  .answer-body code {
+    background: #f0f0f0 !important;
+    color: #000 !important;
+    border: 0.5pt solid #aaa !important;
+    padding: 1px 3px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 8.5pt !important;
+  }
+  
+  /* --- Hinglish Callout — B&W: thick left border, no colored background --- */
+  .hinglish {
+    background: #fafafa !important;
+    border: 1pt solid #aaa !important;
+    border-left: 4pt solid #000 !important;
+    color: #222 !important;
+    padding: 8pt 10pt !important;
+    margin: 10pt 0 !important;
+    border-radius: 0 4pt 4pt 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .hinglish::before {
+    color: #000 !important;
+    font-weight: 700;
+  }
+  
+  .hinglish strong {
+    color: #000 !important;
+  }
+  
+  .hinglish code {
+    background: #eaeaea !important;
+    color: #000 !important;
+    border: 0.5pt solid #aaa !important;
+  }
+  
+  /* --- Key Points Box --- */
+  .key-points {
+    background: #fafafa !important;
+    border: 1.5pt solid #000 !important;
+    padding: 8pt 12pt !important;
+    margin: 10pt 0 !important;
+    border-radius: 4pt !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .key-points h4 {
+    color: #000 !important;
+    font-weight: 700 !important;
+    border-bottom: 1px solid #000 !important;
+    padding-bottom: 3pt !important;
+    margin-bottom: 6pt !important;
+  }
+  
+  .key-points li {
+    color: #000 !important;
+    font-size: 9pt;
+  }
+  
+  .key-points li::marker {
+    color: #000 !important;
+  }
+  
+  /* --- Code Blocks — White background, clear syntax contrast --- */
+  .code-example pre {
+    background: white !important;
+    border: 1pt solid #000 !important;
+    padding: 8pt !important;
+    border-radius: 4pt !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin: 8pt 0 !important;
+  }
+  
+  .code-example code {
+    color: #000 !important;
+    font-size: 8pt;
+    font-family: var(--font-mono) !important;
+  }
+  
+  .code-header {
+    background: #f5f5f5 !important;
+    border: 1pt solid #000 !important;
+    border-bottom: none !important;
+    padding: 4pt 8pt !important;
+    margin-bottom: 0 !important;
+    border-radius: 4pt 4pt 0 0 !important;
+    display: inline-block;
+  }
+  
+  .code-lang {
+    color: #000 !important;
+    font-weight: 700;
+    font-size: 7.5pt;
+  }
+
+  .code-header + pre {
+    border-top-left-radius: 0 !important;
+    margin-top: 0 !important;
+  }
+  
+  /* Enhanced syntax readability in black-and-white print */
+  .code-example .keyword {
+    color: #000 !important;
+    font-weight: bold !important;
+  }
+  .code-example .string {
+    color: #000 !important;
+    font-style: italic !important;
+  }
+  .code-example .comment {
+    color: #666 !important;
+    font-style: italic !important;
+  }
+  .code-example .function {
+    color: #000 !important;
+    font-weight: bold !important;
+  }
+  .code-example .number {
+    color: #000 !important;
+  }
+  
+  /* --- Comparison Tables --- */
+  .comparison-table {
+    border: 1.5pt solid #000 !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 10pt 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .comparison-table th {
+    background: #f5f5f5 !important;
+    color: #000 !important;
+    font-weight: 700;
+    border: 1pt solid #000 !important;
+    padding: 6pt !important;
+    font-size: 9pt;
+  }
+  
+  .comparison-table td {
+    color: #000 !important;
+    border: 1pt solid #000 !important;
+    padding: 6pt !important;
+    font-size: 8.5pt;
+  }
+  
+  .comparison-table tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .comparison-table tr:hover td {
+    background: transparent !important;
+  }
+  
+  /* --- Diagram Containers --- */
+  .diagram-container {
+    background: white !important;
+    border: 1pt solid #000 !important;
+    padding: 8pt !important;
+    margin: 10pt 0 !important;
+    border-radius: 4pt !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  .diagram-container svg text {
+    fill: #000 !important;
+  }
+  
+  .diagram-container svg rect,
+  .diagram-container svg circle,
+  .diagram-container svg ellipse {
+    stroke: #000 !important;
+    stroke-width: 1.5px !important;
+    fill: white !important;
+  }
+  
+  .diagram-container svg line,
+  .diagram-container svg path,
+  .diagram-container svg polyline,
+  .diagram-container svg polygon {
+    stroke: #000 !important;
+    stroke-width: 1.2px !important;
+  }
+  
+  /* --- Difficulty Badges --- */
+  .difficulty-badge {
+    background: white !important;
+    color: #000 !important;
+    border: 1pt solid #000 !important;
+    font-weight: 700;
+    padding: 1px 5px !important;
+    font-size: 7.5pt !important;
+    border-radius: 2pt !important;
+  }
+  
+  /* --- Inline code in answers --- */
+  p code, li code, td code, .hinglish code {
+    background: #eee !important;
+    color: #000 !important;
+    border: 0.5pt solid #aaa !important;
+    padding: 1px 2px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 8.5pt !important;
+  }
+  
+  /* --- Page break helpers --- */
+  .section-wrapper {
+    page-break-before: auto;
+    break-before: auto;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+  
+  p, li, blockquote, pre {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
 
